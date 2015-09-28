@@ -1,7 +1,7 @@
 package model;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.domainLayer.Attribute;
 import model.domainLayer.ClassEnum;
@@ -10,6 +10,7 @@ import model.domainLayer.Entity;
 import model.domainLayer.interfaces.FullNamePath;
 import model.infrastructureLayer.DataBase;
 import model.infrastructureLayer.Infrastructure;
+import model.interfaceLayer.Interface;
 import model.mainLayer.Project;
 import model.mainLayer.TableObjects;
 
@@ -65,13 +66,13 @@ public class SpringRoo {
 	
 	public SpringRoo configDomain() {
 		this.configEnums();
-		Set<Entity> sortEntityList = this.configDomains();
+		List<Entity> sortEntityList = this.configDomains();
 		this.configFields(sortEntityList);
 		return this;
 	}
 	
 	private void configEnums() {
-		Set<ClassEnum> enums = tableObjects.getEnums();
+		List<ClassEnum> enums = tableObjects.getEnums();
 		scriptProject.append("// Configurações do domínio\n");
 		scriptProject.append("// Configurações dos Enums\n");
 		for(ClassEnum e : enums){
@@ -84,9 +85,9 @@ public class SpringRoo {
 		this.scriptProject.append("\n");
 	}
 	
-	private Set<Entity> configDomains() {
+	private List<Entity> configDomains() {
 		scriptProject.append("// Configurações das entitidades \n");
-		Set<Entity> sortList = this.sortEntities();
+		List<Entity> sortList = this.sortEntities();
 		for(Entity ent: sortList){
 			this.scriptProject.append(
 					"entity jpa --class " +
@@ -108,8 +109,8 @@ public class SpringRoo {
 		return sortList;
 	}
 
-	private Set<Entity> sortEntities() {
-		Set<Entity> list = new LinkedHashSet<Entity>();
+	private List<Entity> sortEntities() {
+		List<Entity> list = new ArrayList<Entity>();
 		for(Entity ent: this.tableObjects.getEntities()){
 			for(Entity superEntity: ent.getClassExtends()){
 				this.navigateUpParent(list, superEntity);
@@ -120,7 +121,7 @@ public class SpringRoo {
 		return list;
 	}
 
-	private void navigateUpParent(Set<Entity> list, Entity parent) {
+	private void navigateUpParent(List<Entity> list, Entity parent) {
 		if(list.contains(parent)){
 			for(Entity superEntity: parent.getClassExtends()){
 				this.navigateUpParent(list, superEntity);			}
@@ -128,7 +129,7 @@ public class SpringRoo {
 		}
 	}
 
-	private void configFields(Set<Entity> sortEntityList) {
+	private void configFields(List<Entity> sortEntityList) {
 		this.scriptProject.append("\n\n");
 		scriptProject.append("// Configurações dos campos\n");
 		for(Entity single: sortEntityList){
@@ -195,8 +196,15 @@ public class SpringRoo {
 		}
 	}
 
+	/*public void configFrontEnd() {
+		Project project = this.tableObjects.getProject()
+		for(Interface iface : project.getIface()){
+			if(iface.)
+		}
+	}*/
+	
 	public SpringRoo(TableObjects objects) {
 		this.tableObjects = objects;
 		this.scriptProject = new StringBuilder();
-	}
+	}	
 }

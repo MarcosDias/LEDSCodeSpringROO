@@ -12,7 +12,9 @@ public class SpringRooCtrl {
 		SpringRoo roo = new SpringRoo(objects);
         roo.criarProjeto()
         	.configDatabase()
-			.configDomain();
+			.configDomain()
+			//.configFrontEnd()
+			;
         /*roo.quit();
         roo.scriptProject;*/
 		return roo.build();

@@ -26,18 +26,22 @@ public class TiposBasicos {
     }
 
     public TiposBasicos(){
-        String[] intMap = {"number", "java.lang.Integer"};
+        String[] intMap = {"number", "int"};
+        String[] integerMap = {"number", "java.lang.Integer"};
         traducao.put("int", intMap);
-        traducao.put("Integer", intMap);
-        String[] longMap = {"number", "java.lang.Long"};
+        traducao.put("Integer", integerMap);
+        String[] longMap = {"number", "long"};
+        String[] highLongMap = {"number", "java.lang.Long"};
         traducao.put("long", longMap);
-        traducao.put("Long", longMap);
-        String[] floatMap = {"number", "java.lang.Float"};
+        traducao.put("Long", highLongMap);
+        String[] floatMap = {"number", "float"};
+        String[] highFloatMap = {"number", "java.lang.Float"};
         traducao.put("float", floatMap);
-        traducao.put("Float", floatMap);
-        String[] doubleMap = {"number", "java.lang.Double"};
+        traducao.put("Float", highFloatMap);
+        String[] doubleMap = {"number", "double"};
+        String[] highDoubleMap = {"number", "java.lang.Double"};
         traducao.put("double", doubleMap);
-        traducao.put("Double", doubleMap);
+        traducao.put("Double", highDoubleMap);
         String[] booleanMap = {"boolean", ""};
         traducao.put("boolean", booleanMap);
         String[] stringMap = {"string", ""};
