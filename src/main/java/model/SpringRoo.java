@@ -234,7 +234,7 @@ public class SpringRoo {
 	}
 	
 	public SpringRoo quit(){
-		this.scriptProject.append("quit");
+		this.scriptProject.append("quita\n");
 		return this;
 	}
 	
