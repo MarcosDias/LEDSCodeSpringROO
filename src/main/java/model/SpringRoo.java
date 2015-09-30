@@ -11,6 +11,7 @@ import model.domainLayer.interfaces.FullNamePath;
 import model.infrastructureLayer.DataBase;
 import model.infrastructureLayer.Infrastructure;
 import model.interfaceLayer.Interface;
+import model.interfaceLayer.InterfaceApplication;
 import model.mainLayer.Project;
 import model.mainLayer.TableObjects;
 
@@ -122,7 +123,7 @@ public class SpringRoo {
 	}
 
 	private void navigateUpParent(List<Entity> list, Entity parent) {
-		if(list.contains(parent)){
+		if(!list.contains(parent)){
 			for(Entity superEntity: parent.getClassExtends()){
 				this.navigateUpParent(list, superEntity);			}
 			list.add(parent);
@@ -196,12 +197,46 @@ public class SpringRoo {
 		}
 	}
 
-	/*public void configFrontEnd() {
-		Project project = this.tableObjects.getProject()
-		for(Interface iface : project.getIface()){
-			if(iface.)
+	public SpringRoo configFrontEnd() {
+		Project project = this.tableObjects.getProject();
+		Interface iface = project.getIface();
+		for(InterfaceApplication ifaceApp: iface.getInterfaceApplication()){
+			if(ifaceApp.getType().getValor() == "HtmlView"){
+				this.interfaceHTML();
+				break;
+			}
+			else{
+				this.interfaceRestJson();
+			}
 		}
-	}*/
+		return this;
+	}
+	
+	private SpringRoo interfaceHTML(){
+		this.scriptProject.append("// Configurações para interface WEB\n");
+		this.scriptProject.append("web mvc setup\n");
+		this.scriptProject.append("web mvc all --package ~.web\n\n");
+		return this;
+	}
+	
+	private SpringRoo interfaceRestJson(){
+		this.scriptProject.append("// Configurações para interface Rest\n");
+		this.scriptProject.append("json all --deepSerialize\n\n");
+		return this;
+	}
+	
+	public SpringRoo configsExtras(){
+		this.scriptProject.append("// Configurações Extras\n\n");
+		this.scriptProject.append("web mvc language --code de\n");
+		this.scriptProject.append("web mvc language --code es\n");
+		this.scriptProject.append("logging setup --level INFO\n");
+		return this;
+	}
+	
+	public SpringRoo quit(){
+		this.scriptProject.append("quit");
+		return this;
+	}
 	
 	public SpringRoo(TableObjects objects) {
 		this.tableObjects = objects;
