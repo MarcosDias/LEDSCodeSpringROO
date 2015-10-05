@@ -140,8 +140,20 @@ public class SpringRoo {
 					
 					String[] traducao = new TiposBasicos().temTraducao(attr.getDatetype());
 		            if (traducao == null) {
-		            	this.scriptProject.append(" set --fieldName " + attr.getName());
 		            	FullNamePath typeEntidade = (FullNamePath) attr.getDatetype();
+		            	String typeField;
+		            	if(typeEntidade instanceof ClassEnum){
+		            		typeField = "enum";
+		            	}
+		            	else {
+		            		if(attr.getCollectionType() != null){
+			            		typeField = attr.getCollectionType().getValor().toLowerCase();
+			            	} else {
+			            		typeField = "reference";
+			            	}
+		            	}
+		            	
+		            	this.scriptProject.append(" "+ typeField + " --fieldName " + attr.getName());
 		            	this.scriptProject.append(" --type " + typeEntidade.fullNamePath());
 		            } else {
 						this.scriptProject.append(new TiposBasicos().temTraducao(attr.getDatetype())[0]);
@@ -229,12 +241,12 @@ public class SpringRoo {
 		this.scriptProject.append("// Configurações Extras\n\n");
 		this.scriptProject.append("web mvc language --code de\n");
 		this.scriptProject.append("web mvc language --code es\n");
-		this.scriptProject.append("logging setup --level INFO\n");
+		//this.scriptProject.append("logging setup --level INFO\n");
 		return this;
 	}
 	
 	public SpringRoo quit(){
-		this.scriptProject.append("quita\n");
+		this.scriptProject.append("quit\n");
 		return this;
 	}
 	
