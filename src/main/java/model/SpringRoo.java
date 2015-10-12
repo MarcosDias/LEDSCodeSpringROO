@@ -241,7 +241,9 @@ public class SpringRoo {
 		this.scriptProject.append("// Configurações Extras\n\n");
 		this.scriptProject.append("web mvc language --code de\n");
 		this.scriptProject.append("web mvc language --code es\n");
-		//this.scriptProject.append("logging setup --level INFO\n");
+		this.scriptProject.append("logging setup --level INFO\n");
+		this.scriptProject.append("security setup\n");
+		this.scriptProject.append("\n");
 		return this;
 	}
 	
